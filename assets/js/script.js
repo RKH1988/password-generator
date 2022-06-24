@@ -57,8 +57,8 @@ var upperAlpha = [
   "Y",
   "Z",
 ];
-var num = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-var symbols = [
+var number = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+var symbol = [
   "!",
   "@",
   "#",
@@ -81,80 +81,55 @@ var symbols = [
   "~",
 ];
 
-var criteria = {
-  length: 0,
-  lower: false,
-  upper: false,
-  num: false,
-  symbols: false
-
-}
-console.log(criteria);
-// function to generate a random numeric value
-//var randomNumber = function (min, max) {
-  //var num = Math.floor(Math.random() * (max - min) + min);
-
-  //return num;
-//};
-
-//insert function for click action here
+//prompt for password elements
 function generatePassword() {
-  // function to set length
-  var passLength = "";
-  
-  while (
-    passLength === "" ||
-    passLength === null ||
-    passLength < 8 ||
-    passLength > 128
-  ) {
-    passLength = parseInt(prompt(
+  //set length
+
+  var passLength = parseInt(
+    prompt(
       "Enter the length of your password. Please enter a number between 8 and 128 characters."
-      ));
-      if (passLength<=128 && passLength>=8){
-        criteria.length = passLength;
-      } else {
-        window.alert("You must choose a number between 8 and 128 characters.");
-        return generatePassword();
-      }
-    }
-    console.log("Your password length is " + passLength);
-    
-    passwordCriteria();
-  };
+    )
+  );
+
+  //alert if password length is less than 8 or greater than 28
+  if (passLength > 128 || passLength < 8) {
+    window.alert("You must choose a number between 8 and 128 characters.");
+    return generatePassword();
+  }
   
-  //prompt for password elements
-  function passwordCriteria() {
-    //confirm for lowercase letters
-      var confirmLower = window.confirm(
-        "Do you want to include lowercase letters?"
-      );
-      if (confirmLower) {criteria.lower = true;};
-  
-      //confirm for uppercase letters
-      var confirmUpper = window.confirm(
-        "Do you want to include uppercase letters?"
-      );
-      if (confirmUpper) {criteria.upper = true;};
-  
-      //confirm for numbers
-      var confirmNum = window.confirm(
-        "Do you want to include numbers?"
-      );
-      if (confirmNum) {criteria.num = true;};
-  
-      //confirm for symbols
-      var confirmSymbols = window.confirm(
-        "Do you want to include symbols?"
-      );
-      if (confirmSymbols) {criteria.symbols = true;};
-      
-      //alert if no options selected and loop back
-      if(!confirmLower && !confirmUpper && !confirmNum && !confirmSymbols) {
-        window.alert("You must select at least one character type.");
-        return passwordCriteria();
-      };
-    };
+  //confirms to idenfy character criteria
+  var confirmLower = window.confirm("Do you want to include lowercase letters?");
+
+  var confirmUpper = window.confirm("Do you want to include uppercase letters?");
+
+  var confirmNum = window.confirm("Do you want to include numbers?");
+
+  var confirmSymbols = window.confirm("Do you want to include symbols?");
+
+  //alert if user did not select at least one criteria
+  if (!confirmLower && !confirmUpper && !confirmNum && !confirmSymbols) {
+    window.alert("You must select at least one character type.");
+    return generatePassword();
+  }
+
+  //define random array components
+  var charArray = [];
+
+  if (confirmLower) charArray = charArray.concat(lowerAlpha);
+  if (confirmUpper) charArray = charArray.concat(upperAlpha);
+  if (confirmNum) charArray = charArray.concat(number);
+  if (confirmSymbols) charArray = charArray.concat(symbol);
+
+  //create password by randomly selecting components of the created array
+  var password = "";
+
+  for (var i = 0; i < passLength; i++) {
+    var randomChar = charArray[Math.floor(Math.random() * charArray.length)];
+    password = password + randomChar;
+  }
+
+  return password;
+}
 
 // Get references to the #generate element
 var generateBtn = document.querySelector("#generate");
