@@ -90,9 +90,13 @@ function generatePassword() {
       "Enter the length of your password. Please enter a number between 8 and 128 characters."
     )
   );
-
+console.log(passLength);
   //alert if password length is less than 8 or greater than 28
-  if (passLength > 128 || passLength < 8) {
+  if (isNaN(passLength)){
+    window.alert("You must choose a number between 8 and 128 characters.");
+    return generatePassword();
+  } 
+  if (passLength > 128 || passLength < 8 || passLength.length===0 || passLength===""|| passLength==="NaN"|| passLength===null) {
     window.alert("You must choose a number between 8 and 128 characters.");
     return generatePassword();
   }
@@ -129,7 +133,7 @@ function generatePassword() {
   }
 
   return password;
-}
+};
 
 // Get references to the #generate element
 var generateBtn = document.querySelector("#generate");
